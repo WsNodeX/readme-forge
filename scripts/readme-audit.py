@@ -353,6 +353,15 @@ def main() -> int:
     print()
     print(f"{len(results)} audited · {len(failed)} fail · {len(warned)} warn · {passed} pass")
 
+    # Topics live in the GitHub repo settings, not in the README. A local audit
+    # can report PASS on a repo that still fails remotely, which happened twice
+    # during the field test. Say so rather than letting the user assume done.
+    if not args.repo:
+        print()
+        print("note: local mode cannot check GitHub topics (limit 5).")
+        print("      Run with --repo OWNER/NAME against the pushed repo before")
+        print("      calling it done — a README-only fix is not the whole check.")
+
     if failed:
         return 1
     if args.strict and warned:
