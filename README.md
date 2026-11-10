@@ -91,25 +91,28 @@ Then hand it to your agent: `Use the readme-forge skill on WsNodeX/ember.`
 
 ## Why this exists
 
-Most README advice optimizes prose. Prose is not the problem — a README written
-for the wrong reader fails no matter how well it is written.
+Most README advice optimizes prose. Prose is not the problem — a README written for
+the wrong reader fails no matter how well it is written.
 
-The rule that earns its keep is the phantom asset check. A model writing "reuse
-the architecture diagram above" is describing a file it never created. That is
-mechanically checkable, so it gets checked.
+The rule that earns its keep is the phantom asset check: a model writing "reuse the
+architecture diagram above" is describing a file it never created. Mechanically
+checkable, so it gets checked.
 
-The hard part was separating use from mention: a README documenting a bad example
-has to quote it. So text rules run on prose only — fenced blocks, inline code and
-HTML attributes are stripped first. This project's own README fails its own audit
-without that rule.
+The hard part was separating use from mention — a README documenting a bad example
+has to quote it, so text rules run on prose only.
 
 ## Limitations
 
-- **Cannot rescue an empty project.** If the code has nothing to say, the audit
-  says so and stops.
-- **Does not grow stars.** A clean README removes the reason visitors bounce. It
-  does not create the reason they arrive — that is distribution.
+- **Cannot rescue an empty project.** If the code has nothing to say, the audit says
+  so and stops.
+- **Does not grow stars.** A clean README removes the reason visitors bounce; it does
+  not create the reason they arrive.
 - **Remote audit needs `api.github.com`**, capped at 60 repos/hour without a token.
+
+## Worked example
+
+[docs/case-study-26-repos.md](docs/case-study-26-repos.md) — 26 real repos audited:
+200 violations, 19 broken API examples, 3 unfindable bugs.
 
 ## License
 
