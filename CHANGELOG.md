@@ -6,6 +6,30 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Fixed
+
+- `--json` mode printed the human summary line to stdout after the JSON payload,
+  which broke `| jq` and PowerShell's `ConvertFrom-Json`. Found while auditing 24
+  real repos in bulk — the failure only appears at scale.
+- The local walker descended into tooling directories and audited generated
+  files. `pytest` writes a `.pytest_cache/README.md`, which was reported as a
+  failing project README. Now skips `.pytest_cache`, `__pycache__`, `node_modules`,
+  `.venv`, `dist`, `build`, `target`, `vendor` and similar.
+
+### Verified in the field
+
+Audited 24 real repositories with this tool, then fixed four of them end to end:
+
+| Repo | Failures before | After | What it was |
+|---|---|---|---|
+| `WsNodeX/ember` | 15 | 0 | A launch plan shipped inside the README, a diagram claimed but never drawn, 6 static badges, first code on line 81 |
+| `WsNodeX/cairn` | 2 | 0 | 4,794 characters, first code on line 48, 3 static badges |
+| `WsNodeX/vellum` | 2 | 0 | 4 static badges, zero real images |
+| `WsNodeX/meter` | 1 | 0 | 4 static badges |
+
+All 24 repos failed the audit on first pass — 200 violations total, average 8,592
+characters, only 6 of 24 had a single real image, 23 of 24 had more than 3 badges.
+
 ## [1.0.0] — 2026-11-10
 
 ### Added

@@ -40,6 +40,14 @@ GOOD_CHARS = 800
 MAX_TOPICS = 5
 FIRST_CODE_MAX_LINE = 40
 
+# Tooling directories contain generated READMEs (pytest writes one) that are not
+# the project's own documentation and must never be audited.
+EXCLUDE_DIRS = {
+    ".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache",
+    "node_modules", ".venv", "venv", "env", "site-packages", "dist", "build",
+    ".next", "target", "vendor",
+}
+
 # ── rule 1/2/8: author-facing text and reader address ─────────────────────
 AUTHOR_FACING = [
     (r"如何把本文", "author-facing: 'how to expand this article'"),
@@ -275,7 +283,7 @@ def walk_local(root: Path) -> list[tuple[str, str, Path | None, int | None]]:
     # match the same file — dedupe on the resolved path.
     candidates = list(root.rglob("[Rr][Ee][Aa][Dd][Mm][Ee].[Mm][Dd]"))
     for p in sorted(candidates):
-        if ".git" in p.parts:
+        if EXCLUDE_DIRS & set(p.parts):
             continue
         rp = p.resolve()
         if rp in seen:
@@ -315,19 +323,28 @@ def main() -> int:
     results = [analyze(n, t, b, tp) for n, t, b, tp in targets]
 
     if args.json:
+        # Nothing else may be printed in this mode — a summary line on stdout
+        # breaks `| jq` and ConvertFrom-Json, which is the whole point of --json.
         print(json.dumps(results, ensure_ascii=False, indent=2))
-    else:
-        print(f"{'repo/file':<30} {'chars':>6} {'badge':>5} {'img':>4} {'code@':>6}  verdict")
-        print("-" * 74)
-        for r in results:
-            verdict = "FAIL" if r["issues"] else ("WARN" if r["warns"] else "PASS")
-            fcl = r["first_code_line"] if r["first_code_line"] is not None else "-"
-            print(f"{r['name'][:29]:<30} {r['chars']:>6} {r['badges']:>5} "
-                  f"{r['images']:>4} {str(fcl):>6}  {verdict}")
-            for i in r["issues"]:
-                print(f"    x {i}")
-            for w in r["warns"]:
-                print(f"    ! {w}")
+        failed = [r for r in results if r["issues"]]
+        warned = [r for r in results if r["warns"] and not r["issues"]]
+        if failed:
+            return 1
+        if args.strict and warned:
+            return 1
+        return 0
+
+    print(f"{'repo/file':<30} {'chars':>6} {'badge':>5} {'img':>4} {'code@':>6}  verdict")
+    print("-" * 74)
+    for r in results:
+        verdict = "FAIL" if r["issues"] else ("WARN" if r["warns"] else "PASS")
+        fcl = r["first_code_line"] if r["first_code_line"] is not None else "-"
+        print(f"{r['name'][:29]:<30} {r['chars']:>6} {r['badges']:>5} "
+              f"{r['images']:>4} {str(fcl):>6}  {verdict}")
+        for i in r["issues"]:
+            print(f"    x {i}")
+        for w in r["warns"]:
+            print(f"    ! {w}")
 
     failed = [r for r in results if r["issues"]]
     warned = [r for r in results if r["warns"] and not r["issues"]]
