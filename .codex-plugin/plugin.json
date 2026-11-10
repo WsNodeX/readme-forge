@@ -1,0 +1,17 @@
+{
+  "name": "readme-forge",
+  "version": "1.0.0",
+  "description": "Audit a GitHub README and rewrite it for the reader instead of the author. Deletes author-facing launch plans, headline shortlists and image briefs; enforces a 13-point rule set; refuses to let unmeasured numbers survive.",
+  "author": "WsNodeX",
+  "license": "MIT",
+  "homepage": "https://github.com/WsNodeX/readme-forge",
+  "repository": "https://github.com/WsNodeX/readme-forge",
+  "keywords": ["readme", "documentation", "agent-skills", "codex"],
+  "skills": [
+    {
+      "name": "readme-forge",
+      "path": ".agents/skills/readme-forge/SKILL.md",
+      "description": "Audit and rewrite a GitHub README for the reader, not the author."
+    }
+  ]
+}

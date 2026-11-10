@@ -1,0 +1,20 @@
+[command]
+name = "readme-forge"
+description = "Audit a README and rewrite it for the reader instead of the author"
+prompt = """
+Load the readme-forge skill from .agents/skills/readme-forge/SKILL.md and apply it to {{args}}.
+
+1. Audit first: run `python scripts/readme-audit.py --dir <path>` or `--repo <owner/name>`.
+   Show the raw output.
+2. Quote every offending line verbatim. Do not paraphrase.
+3. Answer the one-line pitch: what does this do that a competent engineer could not
+   do in an afternoon? If there is no answer, stop — the problem is the project.
+4. Rewrite to the skeleton. Target 300-800 characters of prose.
+5. Re-audit. It must exit 0 before you show the result.
+
+Never leave author-facing text (launch plans, headline options, image briefs,
+platform lists) in the README. Never describe an asset that is not in the repo.
+Never invent a number. Never pad for length.
+
+Show the diff, not the whole file.
+"""

@@ -1,0 +1,42 @@
+---
+description: readme-forge — audit and rewrite READMEs for the reader, not the author
+globs: ["**/README.md", "**/readme.md"]
+alwaysApply: false
+---
+
+# readme-forge
+
+When editing a README, apply these rules before writing anything.
+
+## Never leave in the file
+
+- Launch plans, headline options, image briefs, lists of publishing platforms
+- Any sentence addressed to the author rather than the reader
+- Unfalsifiable adjectives: production-ready, battle-tested, enterprise-grade,
+  blazingly fast, seamless, powerful, robust, cutting-edge
+- Numbers with no command in the repo that produces them
+- Descriptions of images that do not exist in the repo
+
+## Always enforce
+
+- At most 3 badges, and prefer live data (`/github/stars/`, `/github/v/release/`)
+  over hand-written strings
+- At least 1 real image: diagram, screenshot, benchmark chart, or a ` ```mermaid `
+  block GitHub renders natively
+- First runnable code block within the first 40 lines
+- Prose between 300 and 800 characters; whole file under 4,000
+- One copy-pasteable command that proves the thing works
+
+## Rewrite skeleton
+
+`# Name` → one concrete sentence → one real image → `## Install` →
+`## Quick start` (with the actual output) → `## Why this exists` (the tradeoff) →
+`## API` → `## License`
+
+## Verify
+
+```bash
+python scripts/readme-audit.py --dir .
+```
+
+Must exit 0. If it fails, the rewrite is not done.

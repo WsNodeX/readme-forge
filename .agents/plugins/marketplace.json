@@ -1,0 +1,19 @@
+{
+  "name": "readme-forge",
+  "version": "1.0.0",
+  "description": "Audit and rewrite GitHub READMEs for the reader, not the author.",
+  "author": {
+    "name": "WsNodeX",
+    "url": "https://github.com/WsNodeX"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/WsNodeX/readme-forge",
+  "plugins": [
+    {
+      "name": "readme-forge",
+      "source": "./",
+      "description": "13-point README audit plus a rewrite skeleton.",
+      "version": "1.0.0"
+    }
+  ]
+}

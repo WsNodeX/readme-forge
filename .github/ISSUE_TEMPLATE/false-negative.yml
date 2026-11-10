@@ -1,0 +1,47 @@
+name: False negative — a bad README passed the audit
+description: Report a failure shape the 13 rules missed
+title: "[false negative] "
+labels: ["false-negative"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A false negative is the most useful bug report this project can get.
+        Please include the actual README text, not a summary of it.
+  - type: input
+    id: repo
+    attributes:
+      label: Where did you see it?
+      placeholder: owner/repo, or paste the offending lines
+    validations:
+      required: true
+  - type: textarea
+    id: offending
+    attributes:
+      label: The text that should have been caught
+      render: markdown
+    validations:
+      required: true
+  - type: dropdown
+    id: rule
+    attributes:
+      label: Which rule should have caught it?
+      options:
+        - Author-facing text
+        - Platform promotion
+        - Badge economy
+        - Zero real images
+        - Phantom assets
+        - Unwitnessed numbers
+        - Length
+        - Time to first code
+        - Reader address
+        - Unfalsifiable adjectives
+        - Feature-list tagline
+        - Topic stuffing
+        - None of the above — it is a missing rule
+  - type: textarea
+    id: why
+    attributes:
+      label: Why is it a problem for a reader?
+      description: One sentence. If it does not harm a reader, it may not be a bug.

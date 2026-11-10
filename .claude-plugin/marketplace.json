@@ -1,0 +1,24 @@
+{
+  "name": "readme-forge",
+  "owner": {
+    "name": "WsNodeX",
+    "url": "https://github.com/WsNodeX"
+  },
+  "metadata": {
+    "description": "Audit and rewrite GitHub READMEs for the reader, not the author.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "readme-forge",
+      "source": "./",
+      "description": "Deletes the parts your AI wrote for itself — launch plans, headline shortlists, image briefs — then rebuilds the README to a skeleton that a stranger can act on in 30 seconds.",
+      "version": "1.0.0",
+      "author": {
+        "name": "WsNodeX"
+      },
+      "license": "MIT",
+      "keywords": ["readme", "documentation", "code-review", "agent-skills"]
+    }
+  ]
+}

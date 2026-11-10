@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="470" viewBox="0 0 880 470" role="img" aria-label="Before and after readme-forge">
+  <style>
+    .panel-title { font-family: ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 700; letter-spacing: .04em; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; }
+    .dim { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 11.5px; }
+  </style>
+
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#000000" flood-opacity="0.10"/>
+    </filter>
+  </defs>
+
+  <rect width="880" height="470" fill="#ffffff"/>
+
+  <!-- ===== LEFT: before ===== -->
+  <g filter="url(#shadow)">
+    <rect x="24" y="24" width="404" height="422" rx="12" fill="#fff5f5" stroke="#ffc9c9"/>
+  </g>
+  <rect x="24" y="24" width="404" height="42" rx="12" fill="#ffd8d8"/>
+  <rect x="24" y="54" width="404" height="12" fill="#ffd8d8"/>
+  <text x="44" y="51" class="panel-title" fill="#c92a2a">BEFORE · what the model shipped</text>
+
+  <!-- badge wall -->
+  <g>
+    <rect x="44" y="84" width="74" height="18" rx="3" fill="#4c6ef5"/>
+    <rect x="124" y="84" width="66" height="18" rx="3" fill="#37b24d"/>
+    <rect x="196" y="84" width="80" height="18" rx="3" fill="#f59f00"/>
+    <rect x="282" y="84" width="60" height="18" rx="3" fill="#e8590c"/>
+    <rect x="348" y="84" width="56" height="18" rx="3" fill="#7950f2"/>
+  </g>
+  <text x="44" y="122" class="dim" fill="#868e96">6 badges · 0 real images</text>
+
+  <text x="44" y="158" class="mono" fill="#212529" font-weight="700">## 6. How to expand this into a launch post</text>
+
+  <text x="44" y="186" class="mono" fill="#c92a2a">- Headline options: "I wrote PyTorch's</text>
+  <text x="44" y="204" class="mono" fill="#c92a2a">  autograd core in 600 lines"</text>
+  <text x="44" y="228" class="mono" fill="#c92a2a">- Image brief: reuse the architecture</text>
+  <text x="44" y="246" class="mono" fill="#c92a2a">  diagram above</text>
+  <text x="44" y="270" class="mono" fill="#c92a2a">- Hook: open with "do you really</text>
+  <text x="44" y="288" class="mono" fill="#c92a2a">  understand loss.backward()?"</text>
+  <text x="44" y="312" class="mono" fill="#c92a2a">- Platforms: dev.to / r/Python / HN</text>
+
+  <line x1="44" y1="336" x2="408" y2="336" stroke="#ffc9c9"/>
+  <text x="44" y="360" class="dim" fill="#c92a2a">14,552 characters · reader gives up</text>
+  <text x="44" y="380" class="dim" fill="#c92a2a">no run command in the first 40 lines</text>
+  <text x="44" y="400" class="dim" fill="#c92a2a">claims a diagram that does not exist</text>
+  <text x="44" y="428" class="dim" fill="#868e96">visitor verdict: "machine output"</text>
+
+  <!-- ===== arrow ===== -->
+  <g>
+    <line x1="436" y1="235" x2="444" y2="235" stroke="#adb5bd" stroke-width="2"/>
+    <path d="M436 228 L446 235 L436 242 Z" fill="#adb5bd"/>
+  </g>
+
+  <!-- ===== RIGHT: after ===== -->
+  <g filter="url(#shadow)">
+    <rect x="452" y="24" width="404" height="422" rx="12" fill="#f4fdf7" stroke="#b2f2bb"/>
+  </g>
+  <rect x="452" y="24" width="404" height="42" rx="12" fill="#d3f9d8"/>
+  <rect x="452" y="54" width="404" height="12" fill="#d3f9d8"/>
+  <text x="472" y="51" class="panel-title" fill="#2b8a3e">AFTER · readme-forge</text>
+
+  <text x="472" y="92" class="mono" fill="#212529" font-size="17" font-weight="700">ember</text>
+  <text x="472" y="116" class="mono" fill="#495057">A 600-line autograd engine. Pure Python.</text>
+
+  <!-- mermaid-ish diagram -->
+  <rect x="472" y="132" width="364" height="64" rx="8" fill="#ffffff" stroke="#b2f2bb"/>
+  <g class="dim" fill="#2b8a3e">
+    <rect x="492" y="152" width="70" height="24" rx="4" fill="#e7f8ec" stroke="#8ce99a"/>
+    <text x="502" y="169">Tensor</text>
+    <path d="M566 164 h34" stroke="#8ce99a" stroke-width="2"/>
+    <path d="M596 159 L606 164 L596 169 Z" fill="#8ce99a"/>
+    <rect x="610" y="152" width="80" height="24" rx="4" fill="#e7f8ec" stroke="#8ce99a"/>
+    <text x="619" y="169">backward</text>
+    <path d="M694 164 h34" stroke="#8ce99a" stroke-width="2"/>
+    <path d="M724 159 L734 164 L724 169 Z" fill="#8ce99a"/>
+    <rect x="738" y="152" width="70" height="24" rx="4" fill="#e7f8ec" stroke="#8ce99a"/>
+    <text x="754" y="169">grad</text>
+  </g>
+
+  <text x="472" y="222" class="mono" fill="#212529" font-weight="700">## Quick start</text>
+  <rect x="472" y="232" width="364" height="72" rx="6" fill="#212529"/>
+  <text x="486" y="252" class="dim" fill="#8ce99a">$ python examples/fit_linear.py</text>
+  <text x="486" y="272" class="dim" fill="#e6edf3">weight≈[[3.00]]  bias≈[2.00]</text>
+  <text x="486" y="292" class="dim" fill="#adb5bd"># runs in 4s, no pip install</text>
+
+  <text x="472" y="328" class="mono" fill="#212529" font-weight="700">## Why this exists</text>
+  <text x="472" y="350" class="dim" fill="#495057">Reading 600 lines of backward() teaches</text>
+  <text x="472" y="368" class="dim" fill="#495057">more than a semester of treating it as</text>
+  <text x="472" y="386" class="dim" fill="#495057">magic. It is not a PyTorch competitor.</text>
+
+  <line x1="472" y1="404" x2="836" y2="404" stroke="#b2f2bb"/>
+  <text x="472" y="426" class="dim" fill="#2b8a3e">812 characters · 1 real diagram · 2 badges</text>
+  <text x="472" y="442" class="dim" fill="#2b8a3e">works in the first 20 lines</text>
+</svg>

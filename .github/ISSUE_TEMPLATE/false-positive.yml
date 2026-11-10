@@ -1,0 +1,33 @@
+name: False positive — a good README failed the audit
+description: Report a rule that fires on legitimate writing
+title: "[false positive] "
+labels: ["false-positive"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This project's own README is the regression test: it must pass its own
+        audit. Anything that would make an honest README fail belongs here.
+  - type: textarea
+    id: text
+    attributes:
+      label: The text that was wrongly flagged
+      render: markdown
+    validations:
+      required: true
+  - type: input
+    id: rule
+    attributes:
+      label: Which rule fired?
+      placeholder: e.g. "author-facing text: 'launch post'"
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Why is this legitimate?
+      description: |
+        Example: the word appears inside a quoted example, or the project is an
+        awesome-list where the "Time to first code" rule does not apply.
+    validations:
+      required: true

@@ -1,0 +1,75 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # The project's own README must survive its own audit. If this fails, the
+      # rules are wrong or the README regressed — both are release blockers.
+      - name: Audit own README
+        run: python scripts/readme-audit.py --dir .
+
+      - name: Validate plugin manifests
+        run: |
+          set -e
+          for f in .claude-plugin/marketplace.json .claude-plugin/plugin.json \
+                   .codex-plugin/plugin.json .agents/plugins/marketplace.json; do
+            python -c "import json,sys; json.load(open(sys.argv[1])); print('ok', sys.argv[1])" "$f"
+          done
+
+      - name: Validate SKILL.md front matter
+        run: |
+          set -e
+          python - <<'PY'
+          import re, sys, pathlib
+          p = pathlib.Path(".agents/skills/readme-forge/SKILL.md")
+          t = p.read_text(encoding="utf-8")
+          assert t.startswith("---"), "SKILL.md must open with YAML front matter"
+          fm = t.split("---", 2)[1]
+          for key in ("name:", "description:"):
+              assert key in fm, f"front matter missing {key}"
+          print("ok SKILL.md")
+          PY
+
+      - name: Check referenced assets exist
+        run: |
+          set -e
+          python - <<'PY'
+          import re, pathlib, sys
+          bad = []
+          for readme in pathlib.Path(".").rglob("README.md"):
+              if ".git" in readme.parts:
+                  continue
+              text = readme.read_text(encoding="utf-8")
+              for m in re.finditer(r'(?:src|srcset)="([^"]+)"', text):
+                  u = m.group(1)
+                  if u.startswith(("http", "data:")):
+                      continue
+                  target = (readme.parent / u.lstrip("./")).resolve()
+                  if not target.exists():
+                      bad.append(f"{readme}: {u}")
+          if bad:
+              print("\n".join(bad)); sys.exit(1)
+          print("all local assets present")
+          PY
+
+      - name: Smoke test the CLI
+        run: |
+          set -e
+          python scripts/readme-audit.py --repo karpathy/micrograd
+          echo "--- remote audit exit code: $? ---"

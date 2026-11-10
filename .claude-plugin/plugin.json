@@ -1,0 +1,15 @@
+{
+  "name": "readme-forge",
+  "version": "1.0.0",
+  "description": "Audit and rewrite GitHub READMEs for the reader, not the author.",
+  "author": {
+    "name": "WsNodeX",
+    "url": "https://github.com/WsNodeX"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/WsNodeX/readme-forge",
+  "repository": "https://github.com/WsNodeX/readme-forge",
+  "keywords": ["readme", "documentation", "agent-skills", "claude-code"],
+  "skills": ["./.agents/skills/readme-forge"],
+  "commands": ["./.claude/commands/readme-forge.md"]
+}
