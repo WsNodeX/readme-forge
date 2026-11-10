@@ -30,6 +30,19 @@ Audited 24 real repositories with this tool, then fixed four of them end to end:
 All 24 repos failed the audit on first pass — 200 violations total, average 8,592
 characters, only 6 of 24 had a single real image, 23 of 24 had more than 3 badges.
 
+**A trap worth recording:** all four repaired repos passed the local audit
+(`--dir`) and still failed the remote one (`--repo`). The remote mode also checks
+the GitHub `topics` field, which does not exist in the README, so no amount of
+local editing can satisfy it. Each repo carried 7–10 topics against a limit of 5.
+Local PASS is not the whole story; verify against the remote API before calling a
+repo done.
+
+### Field-test artifacts
+
+Each repaired repo was also given its first tag and release, because the live
+`/github/v/release` badge renders as "no releases" without one — a badge that
+reports a failure is worse than the static string it replaced.
+
 ## [1.0.0] — 2026-11-10
 
 ### Added
