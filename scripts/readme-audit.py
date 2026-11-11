@@ -167,10 +167,29 @@ def fetch_remote(repo: str) -> tuple[str, str, int | None]:
 
 # ── analysis ──────────────────────────────────────────────────────────────
 def first_code_line(text: str) -> int | None:
-    """1-based line number of the first fenced code block."""
-    for i, line in enumerate(text.splitlines(), 1):
-        if line.strip().startswith("```"):
-            return i
+    """
+    1-based line number of the first *runnable* fenced block.
+
+    Mermaid blocks are skipped. They are diagrams, not code a reader would copy
+    and run, and rule 5 already counts them as real images — counting them here
+    taxed the same block twice. A README whose only visual asset is a Mermaid
+    diagram near the top would fail "time to first code" while showing a diagram
+    exactly where that rule wants code to be.
+    """
+    lines = text.splitlines()
+    i = 0
+    while i < len(lines):
+        stripped = lines[i].strip()
+        if stripped.startswith("```"):
+            lang = stripped[3:].strip().lower()
+            if lang.startswith("mermaid"):
+                i += 1
+                while i < len(lines) and not lines[i].strip().startswith("```"):
+                    i += 1
+                i += 1
+                continue
+            return i + 1
+        i += 1
     return None
 
 
