@@ -193,6 +193,31 @@ def first_code_line(text: str) -> int | None:
     return None
 
 
+def spoken_outside_quotes(s: str, start: int, end: int, window: int = 60) -> bool:
+    """
+    True when the match is NOT wrapped in quotation marks.
+
+    A README explaining a rule has to name the thing the rule forbids — "do not
+    write a 'publishing to Hacker News' note" contains the forbidden phrase as a
+    citation. Stripping fenced and inline code is not enough, because prose
+    citations use quotation marks.
+
+    The check is local: only the quote characters surrounding the match within a
+    short window count, so an unrelated pair of quotes elsewhere in the paragraph
+    does not silence a real violation.
+    """
+    before = s[max(0, start - window):start]
+    after = s[end:end + window]
+    opens = ('"', "「", "“", "'")
+    closes = ('"', "」", "”", "'")
+    for o, c in zip(opens, closes):
+        if o in before and c in after:
+            # The nearest quote must be an opener and the nearest a closer.
+            if before.rfind(o) > max(before.rfind('"'), before.rfind("」"), before.rfind("”"), 0) - 1:
+                return False
+    return True
+
+
 def analyze(name: str, text: str, base_dir: Path | None, topics: int | None) -> dict:
     issues: list[str] = []
     warns: list[str] = []
@@ -200,15 +225,17 @@ def analyze(name: str, text: str, base_dir: Path | None, topics: int | None) -> 
     # Text rules run on prose only — quoted examples are citations, not usage.
     prose = prose_only(text)
 
-    def hit(patterns, bucket):
+    def hit(patterns, bucket, quote_aware: bool = False):
         for pat, label in patterns:
-            m = re.search(pat, prose, re.IGNORECASE)
-            if m:
+            for m in re.finditer(pat, prose, re.IGNORECASE):
+                if quote_aware and not spoken_outside_quotes(prose, m.start(), m.end()):
+                    continue
                 bucket.append(f"{label} (matched 「{m.group(0)}」)")
+                break
 
     # rules 1, 2, 8
     hit(AUTHOR_FACING, issues)
-    hit(PLATFORM_PROMO, issues)
+    hit(PLATFORM_PROMO, issues, quote_aware=True)
     hit(READER_ADDRESS, issues)
 
     # rule 4: slop adjectives -> warning, not failure (they are pervasive)
@@ -240,6 +267,12 @@ def analyze(name: str, text: str, base_dir: Path | None, topics: int | None) -> 
     if base_dir is not None:
         for u in real:
             if u.startswith(("http://", "https://", "data:")):
+                continue
+            # A template writes `.../stars/U/R` as a shape, not a path. Treating
+            # placeholders as missing files makes every template fail its own
+            # audit — which is exactly what happened the first time this rule met
+            # templates/README.md.
+            if "..." in u or "<" in u or u.startswith("{{"):
                 continue
             if not (base_dir / u.lstrip("./")).exists():
                 issues.append(f"phantom asset: {u} is referenced but not in the repo")

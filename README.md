@@ -52,14 +52,8 @@ live badges, and a quick start that runs within the first 20 lines.
 git clone https://github.com/WsNodeX/readme-forge ~/.claude/skills/readme-forge
 ```
 
-Or as a Claude Code plugin:
-
-```bash
-/plugin marketplace add WsNodeX/readme-forge
-/plugin install readme-forge
-```
-
-Plain Markdown, so it also runs on Codex, Cursor, Cline, Gemini CLI and Kiro.
+Or `/plugin marketplace add WsNodeX/readme-forge`. Plain Markdown, so it also runs
+on Codex, Cursor, Cline, Gemini CLI and Kiro.
 
 ## Quick start
 
@@ -80,39 +74,40 @@ Then hand it to your agent: `Use the readme-forge skill on WsNodeX/ember.`
 
 | Rule | Fails when |
 |---|---|
-| Author-facing text | Contains a launch plan, headline shortlist or image plan |
+| Author-facing text | Contains a launch plan, headline shortlist or `image brief` |
 | Platform promotion | Names where to post the article |
 | Badge economy | More than three badges, or all of them static |
 | Real images | Zero non-badge images |
 | Phantom assets | Describes a diagram `git ls-files` cannot find |
 | Unwitnessed numbers | A test count with no command behind it |
-| Length | Over 4,000 characters |
-| Time to first code | First runnable block after line 40 |
+| Length · first code | Over 4,000 chars, or no runnable block before line 40 |
+
+## Five templates
+
+The audit says what is wrong. [templates/TEMPLATES.md](templates/TEMPLATES.md) says
+what right looks like — one skeleton each for a library, CLI, application, Agent
+Skill and teaching implementation.
 
 ## Why this exists
 
 Most README advice optimizes prose. Prose is not the problem — a README written for
-the wrong reader fails no matter how well it is written.
-
-The rule that earns its keep is the phantom asset check: a model writing "reuse the
-architecture diagram above" is describing a file it never created. Mechanically
-checkable, so it gets checked.
+the wrong reader fails however well it is written. The rule that earns its keep is
+the phantom asset check: a model writing "reuse the diagram above" describes a file
+it never created.
 
 The hard part was separating use from mention — a README documenting a bad example
-has to quote it, so text rules run on prose only.
+must quote it, so text rules run on prose only.
 
 ## Limitations
 
-- **Cannot rescue an empty project.** If the code has nothing to say, the audit says
-  so and stops.
-- **Does not grow stars.** A clean README removes the reason visitors bounce; it does
-  not create the reason they arrive.
-- **Remote audit needs `api.github.com`**, capped at 60 repos/hour without a token.
+- **Cannot rescue an empty project** — if the code has nothing to say, the audit says so.
+- **Does not grow stars** — it removes the reason visitors bounce, not the reason they arrive.
+- **Remote audit needs `api.github.com`**, 60 repos/hour without a token.
 
 ## Worked example
 
-[docs/case-study-26-repos.md](docs/case-study-26-repos.md) — 26 real repos audited:
-200 violations, 19 broken API examples, 3 unfindable bugs.
+[docs/case-study-26-repos.md](docs/case-study-26-repos.md) — 26 real repos, 200
+violations, 19 broken API examples, 3 unfindable bugs.
 
 ## License
 
